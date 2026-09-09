@@ -47,52 +47,41 @@ def main() -> int:
         }
     ]
 
-    response = client.messages.create(
-        model = "claude-opus-5",
-        max_tokens = 5000,
-        messages = conversation,
-        tools = tools
-    )
+    while True:
+        response = client.messages.create(
+            model = "claude-opus-5",
+            max_tokens = 5000,
+            messages = conversation,
+            tools = tools
+        )
 
-    conversation.append({
-        "role": "assistant",
-        "content": response.content
-    })
+        conversation.append({
+            "role": "assistant",
+            "content": response.content
+        })
 
-    results = []
-    if response.stop_reason == "tool_use":
-        for block in response.content:
-            if block.type == "tool_use":
-                if block.name == "web_search":
-                    tool_result = web_search(block.input)
-                    results.append({
-                        "type": "tool_result",
-                        "tool_use_id": block.id,
-                        "content": str(tool_result)
-                    })
+        results = []
+        if response.stop_reason == "tool_use":
+            for block in response.content:
+                if block.type == "tool_use":
+                    if block.name == "web_search":
+                        tool_result = web_search(block.input)
+                        results.append({
+                            "type": "tool_result",
+                            "tool_use_id": block.id,
+                            "content": str(tool_result)
+                        })
 
-    else:
-        for block in response.content:
-            if block.type == "text":
-                print(block.text)
-                return
+        else:
+            for block in response.content:
+                if block.type == "text":
+                    print(block.text)
+                    return
 
-    conversation.append({
-        "role": "user",
-        "content": results
-    })
-
-    response = client.messages.create(
-        model = "claude-opus-5",
-        max_tokens = 5000,
-        messages = conversation,
-        tools = tools
-    )
-
-    for block in response.content:
-        if block.type == "text":
-            print(block.text)
-            return
+        conversation.append({
+            "role": "user",
+            "content": results
+        })
 
 if __name__ == "__main__":
     sys.exit(main())
