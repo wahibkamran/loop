@@ -3,3 +3,5 @@ __pycache__/
 .pytest_cache/
 .env
 *.log
+credentials.json
+token.json
