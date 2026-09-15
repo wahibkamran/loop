@@ -22,18 +22,11 @@ Claude will typically call `list_directory` / `read_file` on `session01/` to und
 
 ## Steps to run
 
-1. Install all Python dependencies from the repo root: `pip install -r requirements.txt` (this includes `anthropic`, `mcp` and `anyio` used by this session).
-2. Install [Node.js](https://nodejs.org/en/download) (v18+). No separate install of the MCP servers is needed — they are launched with `npx`, which downloads `@modelcontextprotocol/server-filesystem` and `@notionhq/notion-mcp-server` automatically on first run.
-3. Create a Notion integration and copy its internal integration secret (see Resources below).
-4. Share at least one Notion page with the integration (page `•••` menu → **Connections** → pick your integration), otherwise the Notion tools will return nothing.
-5. Add the keys to the repo-root `.env`:
+Complete the setup in the repo-root [README](../README.md) first (`.env`, `pip install`, Node.js). Then:
 
-```
-CLAUDE_API_KEY=your-anthropic-api-key
-NOTION_TOKEN=your-notion-integration-secret
-```
-
-6. Run `python -m session02 "your prompt here"` from the repo root.
+1. Create a Notion integration and copy its internal integration secret into `NOTION_TOKEN` in the repo-root `.env` (see Resources below).
+2. Share at least one Notion page with the integration (page `•••` menu → **Connections** → pick your integration), otherwise the Notion tools will return nothing.
+3. Run `python -m session02 "your prompt here"` from the repo root.
 
 Requires `CLAUDE_API_KEY` and `NOTION_TOKEN` in the repo-root `.env`.
 
